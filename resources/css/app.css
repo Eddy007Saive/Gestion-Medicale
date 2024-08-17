@@ -1,0 +1,9 @@
+@import url("./vendor.bundle.base.css");
+@import url("./style.css");
+@import url("./materialdesignicons.min.css");
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
