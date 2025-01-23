@@ -10,20 +10,22 @@ class Consultation extends Model
 {
     use HasFactory;
 
-    public function patient() : BelongsTo {
+    public function patient(): BelongsTo
+    {
         return $this->belongsTo(Patient::class);
     }
 
 
-    public function medecin() : BelongsTo {
+    public function medecin(): BelongsTo
+    {
         return $this->belongsTo(Medecin::class);
     }
 
     public function medicaments()
     {
-        return $this->belongsToMany(Medicament::class, 'medicaments_consultations')
-                    ->using(MedicamentsConsultations::class)
-                    ->withPivot('qt')
-                    ->withTimestamps();
+        return $this->belongsToMany(Medicament::class, 'ordonnances')
+            ->using(Ordonnance::class) 
+            ->withPivot('dosage', 'voieAdministration', 'frequence', 'duree', 'instruction') // Mentionner toutes les colonnes supplémentaires
+            ->withTimestamps(); 
     }
 }

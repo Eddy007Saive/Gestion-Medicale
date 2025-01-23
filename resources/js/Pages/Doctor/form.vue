@@ -226,7 +226,7 @@
   
   <script lang="ts" setup>
         import { PhotoIcon, UserCircleIcon } from "@heroicons/vue/24/solid";
-        import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout.vue";
+        import AuthenticatedLayout from "../AuthenticatedLayout.vue";
         import { Doctor } from "@/Interfaces/Doctor";
         import { defineProps, ref } from "vue";
         import { useForm } from "@inertiajs/vue3";

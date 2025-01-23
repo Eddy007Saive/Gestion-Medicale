@@ -74,7 +74,7 @@ class MedecinController extends Controller
 
         $validated2['user_id'] = $user->id;
 
-        $validated2['photos'] = "//storage/" . $path;
+        $validated2['photos'] = "/storage/" . $path;
 
 
         Medecin::create($validated2);

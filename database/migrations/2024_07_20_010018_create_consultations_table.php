@@ -12,14 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('consultations', function (Blueprint $table) {
-            $table->id();
-            $table->date("DateCons");
-            $table->text("motifs");
-            $table->text("diagnostic");
-            $table->foreignId("medecin_id")->constrained()->onUpdate("cascade")->onDelete('cascade');
-            $table->foreignId("patient_id")->constrained()->onUpdate("cascade")->onDelete('cascade');
-            $table->timestamps();
-        });
+        $table->id();
+        $table->date("dateCons");
+        $table->string("raison");
+        $table->text("motifs");
+        $table->text("diagnostic");
+        $table->float("poids"); // poids du patient
+        $table->float("taille"); // taille du patient
+        $table->float("temperature"); // température corporelle
+        $table->integer("frequence_cardiaque"); // fréquence cardiaque
+        $table->float("saturation_oxygene")->nullable(); // saturation en oxygène
+        $table->float("glycemie")->nullable(); // glycémie
+        $table->foreignId("medecin_id")->constrained()->onUpdate("cascade")->onDelete('cascade');
+        $table->foreignId("patient_id")->constrained()->onUpdate("cascade")->onDelete('cascade');
+        $table->timestamps();
+    });
     }
 
     /**

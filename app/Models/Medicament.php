@@ -31,9 +31,9 @@ class Medicament extends Model
      *
      * @return BelongsTo
      */
-    public function formes():BelongsToMany
+    public function formes(): BelongsToMany
     {
-        return $this->belongsToMany(Forme::class,'formes_medicaments');
+        return $this->belongsToMany(Forme::class, 'formes_medicaments');
     }
 
     //Relation pour prendre les condition selon l'unité du medicament 
@@ -47,11 +47,17 @@ class Medicament extends Model
      *
      * @return BelongsToMany
      */
-    public function consultations():BelongsToMany
+    public function consultations(): BelongsToMany
     {
-        return $this->belongsToMany(Consultation::class, 'medicaments_consultations')
-            ->using(MedicamentsConsultations::class)
-            ->withPivot('qt')
+
+        return $this->belongsToMany(Consultation::class, 'ordonnances')
+            ->using(Ordonnance::class)
+            ->withPivot('dosage', 'voieAdministration', 'frequence', 'duree', 'instruction') // Mentionner toutes les colonnes supplémentaires
             ->withTimestamps();
+    }
+
+    public function consutationMedicament(): BelongsTo
+    {
+        return $this->belongsTo(MedicamentsConsultations::class);
     }
 }

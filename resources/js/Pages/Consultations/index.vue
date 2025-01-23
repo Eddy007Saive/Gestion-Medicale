@@ -1,29 +1,26 @@
 <script setup  lang="ts">
 import { defineProps, Ref } from 'vue';
 import AuthenticatedLayout from '../AuthenticatedLayout.vue';
-import {Doctor} from "../../Interfaces/Doctor"
+import {Consultation,Doctor} from "../../Interfaces/Consultation"
 import { ref } from 'vue'
 import { Link } from '@inertiajs/vue3';
-import DoctorD from "@/Components/Modale/Doctor.vue"
 import { useForm } from "@inertiajs/vue3";
 import {alert} from '@/Services/Alert'
 import { error, log } from 'console';
 
 // Déclaration des props acceptées par le composant
 const props = defineProps<{
-  doctors: Doctor[];
+  doctors: Consultation[];
 }>();
 
  // Initialiser le formulaire avec useForm
- const form = useForm<Doctor>({
-          id: null,
-          name: "",
-          phone: "",
-          address: "",
-          email: "",
-          photos: null,
-          specialite_id: null,
-          matricule: "",
+ const form = useForm<Consultation>({
+        id: null,
+        dateCons: "",
+        motifs: "",
+        diagnostic: "",
+        medecin_id: null, // `File | null` si le champ est optionnel // `File | null` si le champ est optionnel
+        patient_id: null,
         });
 
 // État réactif pour gérer l'ouverture du modal de suppression
@@ -68,11 +65,11 @@ const deleteDoctor=(doctor:Doctor)=>{
       <DoctorD :hiddens="hidden"  :doctor="selectedDoctor" @update:hiddens="hidden =false"  ></DoctorD>
       <div class="container mx-auto py-8">
         <div class="flex items-centers  w-100 justify-between  ">
-          <h2 class="text-2xl font-semibold ">Liste des Médecins</h2>
+          <h2 class="text-2xl font-semibold ">Liste des Consultations</h2>
           <div>
-            <Link :href="route('doctor.create')" >
-              <i class="fas fa-user"></i>
-              Ajouter
+            <Link :href="route('consultation.create')" class="text-white bg-green-500 p-3 rounded-lg shadow-md  " >
+              <i class="fas fa-book"></i>
+              Nouvelle consultation
             </Link>
           </div>
         </div>
@@ -80,10 +77,9 @@ const deleteDoctor=(doctor:Doctor)=>{
         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead class="bg-gray-50">
             <tr>
-              <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Matricule</th>
-              <th class="py-2 px-4 text-center text-sm font-semibold text-gray-600">Nom</th>
-              <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Spécialité</th>
-
+              <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Date de consultation</th>
+              <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Matricule Patient </th>
+              <th class="py-2 px-4 text-center text-sm font-semibold text-gray-600">Motif</th>
               <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Actions</th>
             </tr>
           </thead>

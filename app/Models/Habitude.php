@@ -10,6 +10,13 @@ class Habitude extends Model
 {
     use HasFactory;
 
+    protected $fillable=[
+        'nom',
+        'dateD',
+        'dateF',
+        'patient_id' 
+    ];
+
     public function patient() : BelongsTo {
         return $this->belongsTo(Patient::class);
     }

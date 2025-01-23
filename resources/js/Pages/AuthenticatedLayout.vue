@@ -1,13 +1,25 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import { defineProps, Ref, ref, watch } from "vue";
+import { Inertia } from '@inertiajs/inertia';
+
+
+const props = defineProps<{
+  rules:string[];
+}>();
+
+
 
 const showingNavigationDropdown = ref(false);
+
+const logOut=()=>{
+  Inertia.post(route('logout'))
+}
 </script>
 
 <template>
@@ -35,19 +47,22 @@ const showingNavigationDropdown = ref(false);
                 <li class="nav-item nav-profile dropdown">
                   <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="nav-profile-img">
-                      <img src="/assets/images/faces/face1.jpg" alt="image">
+                      <img v-if="$page.props.auth.user.medecin" :src="$page.props.auth.user.medecin.photos" alt="profile">
+                      <img v-else src="/assets/images/faces/face1.jpg" alt="image">
+
                       <span class="availability-status online"></span>
                     </div>
                     <div class="nav-profile-text">
-                      <p class="mb-1 text-black">David Greymaax</p>
+                      <p class="mb-1 text-black">{{this.$page.props.auth.user.email}}</p>
                     </div>
                   </a>
                   <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="#">
                       <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                      <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
+                    <a class="dropdown-item" @click="logOut">
+                      <i class="mdi mdi-logout me-2 text-primary">Déconnecter</i>
+                      </a>
                   </div>
                 </li>
                 <li class="nav-item d-none d-lg-block full-screen-link">
@@ -136,7 +151,7 @@ const showingNavigationDropdown = ref(false);
                       </div>
                       <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
                         <h6 class="preview-subject font-weight-normal mb-1">Launch Admin</h6>
-                        <p class="text-gray ellipsis mb-0"> New admin wow! </p>
+                        <p class="text-gray ellipsis mb-0"> New admin wow!</p>
                       </div>
                     </a>
                     <div class="dropdown-divider"></div>
@@ -166,13 +181,15 @@ const showingNavigationDropdown = ref(false);
                 <li class="nav-item nav-profile">
                   <a href="#" class="nav-link">
                     <div class="nav-profile-image">
-                      <img src="/assets/images/faces/face1.jpg" alt="profile">
+                      <img v-if="$page.props.auth.user.medecin" :src="$page.props.auth.user.medecin.photos" alt="profile">
+                      <img v-else src="/assets/images/faces/face1.jpg" alt="profile">
+
                       <span class="login-status online"></span>
                       <!--change to offline or busy as needed-->
                     </div>
                     <div class="nav-profile-text d-flex flex-column">
-                      <span class="font-weight-bold mb-2">David Grey. H</span>
-                      <span class="text-secondary text-small">Project Manager</span>
+                      <span v-if="$page.props.auth.user.medecin" class="font-weight-bold mb-2">{{$page.props.auth.user.medecin.name}}</span>
+                      <span  class="text-secondary text-small">{{$page.props.auth.user.role}}</span>
                     </div>
                     <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
                   </a>
@@ -184,7 +201,7 @@ const showingNavigationDropdown = ref(false);
                   </Link>
                 </li>
                 <li class="nav-item">
-                    <Link class="nav-link" doct :href="route('doctor.all')" aria-expanded="false" aria-controls="ui-basic">
+                    <Link v-if="$page.props.auth.user.role === 'Admin'" class="nav-link" doct :href="route('doctor.all')" aria-expanded="false" aria-controls="ui-basic">
                     <span class="menu-title">Medecin</span>
                     <i class="menu-arrow"></i>
                     <i class="mdi mdi-crosshairs-gps menu-icon"></i>
@@ -208,8 +225,8 @@ const showingNavigationDropdown = ref(false);
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="pages/charts/chartjs.html">
-                    <span class="menu-title">Ordonnaces</span>
+                  <a class="nav-link" :href="route('consultation.all')">
+                    <span class="menu-title">Consultations</span>
                     <i class="mdi mdi-chart-bar menu-icon"></i>
                   </a>
                 </li>

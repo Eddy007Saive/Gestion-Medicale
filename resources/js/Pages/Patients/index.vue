@@ -1,6 +1,6 @@
 <script setup  lang="ts">
 import { defineProps, Ref } from 'vue';
-import AuthenticatedLayout from '../../Layouts/AuthenticatedLayout.vue';
+import AuthenticatedLayout from '../AuthenticatedLayout.vue';
 import {Patient} from "../../Interfaces/Patient"
 import { ref } from 'vue'
 import { Link } from '@inertiajs/vue3';
@@ -51,10 +51,16 @@ const showModale=(patient:Patient)=>{
 
 
 
-//Modifier le docteur
+//Modifier patient
 const editDoctor=(patient:Patient)=>{
   EditPatient.matricule=patient.matricule
   EditPatient.get(route('patient.edit'))
+}
+
+//Modifier le docteur
+const consulter=(patient:Patient)=>{
+  EditPatient.matricule=patient.matricule
+  EditPatient.get(route('consultation.create'))
 }
 
 //Supprimer le docteur
@@ -114,6 +120,10 @@ const deleteDoctor=(doctor:Patient)=>{
                 </button>
                 <button @click="deleteDoctor(patient)" class="text-red-500 hover:text-red-700 mx-1">
                   <i class="fas fa-trash"></i>
+                </button>
+
+                <button @click="consulter(patient)" class="text-red-500 hover:text-red-700 mx-1">
+                  <i class="fas fa-book"></i>
                 </button>
               </td>
             </tr>

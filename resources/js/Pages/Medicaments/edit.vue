@@ -332,7 +332,7 @@
 </template>
   
   <script lang="ts" setup>
-import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout.vue";
+import AuthenticatedLayout from "../AuthenticatedLayout.vue";
 import { Medicament } from "@/Interfaces/Medicament";
 import { Forme } from "@/Interfaces/Forme";
 import { defineProps, ref } from "vue";

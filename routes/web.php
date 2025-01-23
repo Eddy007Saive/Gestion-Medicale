@@ -1,16 +1,19 @@
 <?php
 
-use App\Http\Controllers\AllergieController;
-use App\Http\Controllers\HabitudeController;
-use App\Http\Controllers\HistoriqueMedicalController;
+use App\Models\User;
+use Inertia\Inertia;
+use App\Models\Habitude;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\MedecinController;
-use App\Http\Controllers\MedicamentController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Habitude;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\AllergieController;
+use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\HabitudeController;
+use App\Http\Controllers\MedicamentController;
+use App\Http\Controllers\HistoriqueMedicalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +27,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Welcome', [ 
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -33,7 +36,12 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+
+    return Inertia::render('AuthenticatedLayout',[
+        'rules'=>[
+            "is_admin"=>Auth::user()->can("create",User::class)
+        ]
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -95,6 +103,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/edit/{id}', [HabitudeController::class, 'edit'])->name('habitude.edit');
         Route::post('/update', [HabitudeController::class, 'update'])->name('habitude.update');
         Route::get('/show/{matricule}', [HabitudeController::class, 'show'])->name('habitude.show');
+    });
+
+     // Lient Consultation 
+     Route::prefix("/consultation")->group(function () {
+        Route::get('/', [ConsultationController::class, 'index'])->name('consultation.all');
+        Route::get('/create/', [ConsultationController::class, 'create'])->name('consultation.create');
+        Route::post('/insert', [ConsultationController::class, 'store'])->name('consultation.insert');
+        Route::get('/delete', [ConsultationController::class, 'delete'])->name('consultation.delete');
+        Route::get('/edit/{id}', [ConsultationController::class, 'edit'])->name('consultation.edit');
+        Route::post('/update', [ConsultationController::class, 'update'])->name('consultation.update');
+        Route::get('/show/{matricule}', [ConsultationController::class, 'show'])->name('consultation.show');
     });
 });
 

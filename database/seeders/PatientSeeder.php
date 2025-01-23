@@ -3,10 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Patient;
+use DateTime;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\Date;
 
 class PatientSeeder extends Seeder
 {
@@ -24,20 +26,20 @@ class PatientSeeder extends Seeder
             Patient::create([
                 'nom' => $faker->lastName,
                 'prenom' => $faker->firstName,
+                'matricule' => "P"."-"."'$faker->lastName'",
                 'adresse' => $faker->address,
                 'photos' => $imagePath,
                 'dateN' => $faker->date(),
                 'telephone' => $faker->phoneNumber,
                 'email' => $faker->unique()->safeEmail,
                 'genre' => $faker->randomElement(['Homme', 'Femme']),
-                'num_securite_sociale' => $faker->unique()->numerify('###-##-####'),
                 'groupe_sanguin' => $faker->randomElement(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
-                'historique_medical' => $faker->paragraph,
-                'allergies' => $faker->words(3, true),
                 'contact_urgence_nom' => $faker->name,
                 'contact_urgence_telephone' => $faker->phoneNumber,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'prfs' => $faker->randomElement(['Pompier', 'Etudiant']),
+
             ]);
         }
     }

@@ -11,12 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orda', function (Blueprint $table) {
+        Schema::create('ordonnances', function (Blueprint $table) {
             $table->foreignId("medicament_id")->constrained()->onUpdate("cascade")->onDelete('cascade');
             $table->foreignId("consultation_id")->constrained()->onUpdate("cascade")->onDelete('cascade');
-            $table->integer("qt",60);
+            $table->integer("dosage");
+            $table->string("voieAdministration", 60);
+            $table->integer("frequence");
+            $table->integer("duree");
+            $table->text("instruction");
+            $table->primary(['medicament_id', 'consultation_id']);
+            $table->timestamps();
+
 
         });
+        
     }
 
     /**

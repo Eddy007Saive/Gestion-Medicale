@@ -1,6 +1,6 @@
 <script setup  lang="ts">
 import { defineProps, Ref } from "vue";
-import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout.vue";
+import AuthenticatedLayout from "../AuthenticatedLayout.vue";
 import { Medicament } from "../../Interfaces/Medicament";
 import { ref } from "vue";
 import { Link } from "@inertiajs/vue3";

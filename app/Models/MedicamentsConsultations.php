@@ -16,6 +16,12 @@ class MedicamentsConsultations extends Model
         'medicament_id',
         'consultation_id',
         'qt',
+        'description',
+
     ];
+
+    public function medicaments() : HasMany {
+            return $this->hasMany(Medicament::class);
+    }
     
 }

@@ -812,7 +812,7 @@
 
 <script lang="ts" setup>
 import { PhotoIcon } from "@heroicons/vue/24/solid";
-import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout.vue";
+import AuthenticatedLayout from "../AuthenticatedLayout.vue";
 import { Allergie, Patient, HistoriqueMedical,Habitude } from "@/Interfaces/Patient";
 import { defineProps, Ref, ref, watch } from "vue";
 import { useForm } from "@inertiajs/vue3";
